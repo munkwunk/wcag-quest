@@ -40,7 +40,7 @@ export const AccessibilityTestPage: React.FC<AccessibilityTestPageProps> = ({
         className={`${isCompleted ? 'cursor-default opacity-75' : ''} relative`}
         onClick={() => handleIssueClick(issue)}
         disabled={isCompleted}
-        aria-label={`${isCompleted ? 'Fixed' : 'Click to identify'} accessibility issue: ${issue.failure}`}
+        aria-label={isCompleted ? 'Issue fixed' : 'Fix this issue'}
       >
         {children}
         {!isCompleted && (
@@ -54,14 +54,37 @@ export const AccessibilityTestPage: React.FC<AccessibilityTestPageProps> = ({
 
   return (
     <div className="max-w-4xl mx-auto bg-background">
+      {/* Instructions Banner */}
+      <div className="bg-amber-100 border border-amber-200 rounded-lg p-4 mb-6">
+        <div className="flex items-start gap-3">
+          <div className="bg-amber-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">
+            !
+          </div>
+          <div>
+            <h2 className="font-semibold text-amber-800 mb-1">Testing Instructions</h2>
+            <p className="text-amber-700 text-sm">
+              This page intentionally contains WCAG accessibility failures for educational purposes. 
+              Use your screen reader to navigate and click "Fix this issue" on elements that need correction.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Skip Link - Initially missing, will be added when fixed */}
-      {isFixed['missing-skip-link'] && (
+      {isFixed['missing-skip-link'] ? (
         <a 
           href="#main-content" 
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-md z-50"
         >
           Skip to main content
         </a>
+      ) : (
+        <div className="mb-4">
+          {renderIssueButton(
+            issues.find(i => i.id === 'missing-skip-link')!,
+            <span className="text-xs">Add missing skip link</span>
+          )}
+        </div>
       )}
 
       {/* Header */}
@@ -97,23 +120,39 @@ export const AccessibilityTestPage: React.FC<AccessibilityTestPageProps> = ({
               </p>
               
               {/* Issue: Vague link text */}
-              {renderIssueButton(
-                issues.find(i => i.id === 'vague-link-text')!,
-                <span>
-                  {isFixed['vague-link-text'] ? 'Learn more about WCAG guidelines' : 'Learn more'}
-                </span>
-              )}
+              <div className="flex items-center gap-2">
+                {isFixed['vague-link-text'] ? (
+                  <a href="/wcag-guide" className="text-primary hover:underline">
+                    Learn more about WCAG guidelines
+                  </a>
+                ) : (
+                  <>
+                    <a href="/wcag-guide" className="text-primary hover:underline">
+                      Learn more
+                    </a>
+                    {renderIssueButton(
+                      issues.find(i => i.id === 'vague-link-text')!,
+                      <span className="text-xs">Fix this issue</span>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
-            <div className="text-center">
+            <div className="text-center relative">
               {/* Issue: Missing alt text */}
-              {renderIssueButton(
-                issues.find(i => i.id === 'missing-alt-text')!,
-                <img 
-                  src="/api/placeholder/400/300" 
-                  alt={isFixed['missing-alt-text'] ? 'Students collaborating on accessibility testing in a modern computer lab' : ''}
-                  className="rounded-lg shadow-lg w-full max-w-md mx-auto"
-                  id="hero-image"
-                />
+              <img 
+                src="/api/placeholder/400/300" 
+                alt={isFixed['missing-alt-text'] ? 'Students collaborating on accessibility testing in a modern computer lab' : ''}
+                className="rounded-lg shadow-lg w-full max-w-md mx-auto"
+                id="hero-image"
+              />
+              {!isFixed['missing-alt-text'] && (
+                <div className="absolute top-2 right-2">
+                  {renderIssueButton(
+                    issues.find(i => i.id === 'missing-alt-text')!,
+                    <span className="text-xs">Fix this issue</span>
+                  )}
+                </div>
               )}
             </div>
           </div>
@@ -122,14 +161,19 @@ export const AccessibilityTestPage: React.FC<AccessibilityTestPageProps> = ({
         {/* Features Section with Heading Issue */}
         <section className="mb-12">
           {/* Issue: Improper heading hierarchy */}
-          {renderIssueButton(
-            issues.find(i => i.id === 'heading-hierarchy')!,
-            isFixed['heading-hierarchy'] ? (
-              <h2 id="main-heading" className="text-xl font-bold mb-6">Key Features</h2>
+          <div className="flex items-center gap-4 mb-6">
+            {isFixed['heading-hierarchy'] ? (
+              <h2 id="main-heading" className="text-xl font-bold">Key Features</h2>
             ) : (
-              <h4 id="main-heading" className="text-xl font-bold mb-6">Key Features</h4>
-            )
-          )}
+              <>
+                <h4 id="main-heading" className="text-xl font-bold">Key Features</h4>
+                {renderIssueButton(
+                  issues.find(i => i.id === 'heading-hierarchy')!,
+                  <span className="text-xs">Fix this issue</span>
+                )}
+              </>
+            )}
+          </div>
 
           <div className="grid md:grid-cols-3 gap-6">
             <Card className="p-6">
@@ -167,19 +211,20 @@ export const AccessibilityTestPage: React.FC<AccessibilityTestPageProps> = ({
                     />
                   </>
                 ) : (
-                  <div>
-                    {renderIssueButton(
-                      issues.find(i => i.id === 'unlabeled-input')!,
-                      <div className="text-left">
-                        <div className="block text-sm font-medium mb-2">Email Address</div>
-                        <Input 
-                          type="email" 
-                          id="email-input" 
-                          placeholder="Enter your email"
-                          className="w-full"
-                        />
-                      </div>
-                    )}
+                  <div className="space-y-2">
+                    <div className="block text-sm font-medium">Email Address</div>
+                    <div className="flex gap-2">
+                      <Input 
+                        type="email" 
+                        id="email-input" 
+                        placeholder="Enter your email"
+                        className="flex-1"
+                      />
+                      {renderIssueButton(
+                        issues.find(i => i.id === 'unlabeled-input')!,
+                        <span className="text-xs">Fix this issue</span>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>

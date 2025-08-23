@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { AccessibilityIssue } from '@/types/game';
@@ -26,6 +26,7 @@ export const GameModal: React.FC<GameModalProps> = ({
   const [selectedFix, setSelectedFix] = useState<string>('');
   const [wcagCorrect, setWcagCorrect] = useState<boolean>(false);
   const [fixCorrect, setFixCorrect] = useState<boolean>(false);
+  const titleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -34,8 +35,19 @@ export const GameModal: React.FC<GameModalProps> = ({
       setSelectedFix('');
       setWcagCorrect(false);
       setFixCorrect(false);
+      // Focus the title when modal opens
+      setTimeout(() => {
+        titleRef.current?.focus();
+      }, 100);
     }
   }, [isOpen, issue]);
+
+  useEffect(() => {
+    // Focus the title when step changes
+    setTimeout(() => {
+      titleRef.current?.focus();
+    }, 100);
+  }, [currentStep]);
 
   const handleWCAGSubmit = () => {
     const isCorrect = selectedWCAG === issue.wcag;
@@ -65,13 +77,17 @@ export const GameModal: React.FC<GameModalProps> = ({
   ];
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={() => {}}>
       <DialogContent 
         className="max-w-2xl max-h-[80vh] overflow-y-auto"
         aria-describedby="modal-description"
       >
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold flex items-center gap-2">
+          <DialogTitle 
+            ref={titleRef}
+            tabIndex={-1}
+            className="text-xl font-semibold flex items-center gap-2 outline-none"
+          >
             <AlertCircle className="h-5 w-5 text-warning" />
             Accessibility Issue Detected
           </DialogTitle>
