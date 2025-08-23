@@ -36,6 +36,7 @@ export const AccessibilityTestPage: React.FC<AccessibilityTestPageProps> = ({
     
     return (
       <Button
+        type="button"
         variant={isCompleted ? "ghost" : "issue"}
         className={`${isCompleted ? 'cursor-default opacity-75' : ''} relative`}
         onClick={() => handleIssueClick(issue)}
