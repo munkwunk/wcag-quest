@@ -39,7 +39,7 @@ export const accessibilityIssues: AccessibilityIssue[] = [
     id: "unlabeled-input",
     element: "#email-input",
     failure: "Form input without associated label",
-    wcag: "1.3.1 Info and Relationships",
+    wcag: "3.3.2 Labels or Instructions",
     level: "A",
     fixOptions: [
       "Add aria-label attribute",
