@@ -146,7 +146,6 @@ export const AccessibilityTestPage: React.FC<AccessibilityTestPageProps> = ({
                 alt={isFixed['missing-alt-text'] ? 'Growth for ALL logo: A Venn diagram showing the intersection of Leadership, Growth, Accessibility, and Learning' : ''}
                 className="rounded-lg shadow-lg w-full max-w-md mx-auto"
                 id="hero-image"
-                role={isFixed['missing-alt-text'] ? 'img' : 'presentation'}
               />
               {!isFixed['missing-alt-text'] && (
                 <div className="absolute top-2 right-2">

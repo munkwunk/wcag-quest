@@ -15,8 +15,8 @@ export const accessibilityIssues: AccessibilityIssue[] = [
     ],
     correctFix: "Add descriptive alt text",
     description: "Screen readers cannot access the content of this image because it lacks alternative text.",
-    beforeFix: '<img src="/src/assets/logo.jpg" class="hero-image" role="presentation">',
-    afterFix: '<img src="/src/assets/logo.jpg" alt="Growth for ALL logo: A Venn diagram showing the intersection of Leadership, Growth, Accessibility, and Learning" class="hero-image" role="img">'
+    beforeFix: '<img src="/src/assets/logo.jpg" class="hero-image">',
+    afterFix: '<img src="/src/assets/logo.jpg" alt="Growth for ALL logo: A Venn diagram showing the intersection of Leadership, Growth, Accessibility, and Learning" class="hero-image">'
   },
   {
     id: "heading-hierarchy",
