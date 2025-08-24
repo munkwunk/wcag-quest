@@ -123,12 +123,12 @@ export const AccessibilityTestPage: React.FC<AccessibilityTestPageProps> = ({
               {/* Issue: Vague link text */}
               <div className="flex items-center gap-2">
                 {isFixed['vague-link-text'] ? (
-                  <a href="/wcag-guide" className="text-primary hover:underline">
+                  <a href="#" className="text-primary hover:underline" onClick={(e) => e.preventDefault()}>
                     Learn more about WCAG guidelines
                   </a>
                 ) : (
                   <>
-                    <a href="/wcag-guide" className="text-primary hover:underline">
+                    <a href="#" className="text-primary hover:underline" onClick={(e) => e.preventDefault()}>
                       Learn more
                     </a>
                     {renderIssueButton(
@@ -221,7 +221,6 @@ export const AccessibilityTestPage: React.FC<AccessibilityTestPageProps> = ({
                   </>
                 ) : (
                   <div className="space-y-2">
-                    <div className="block text-sm font-medium">Email Address</div>
                     <div className="flex gap-2">
                       <Input 
                         type="email" 

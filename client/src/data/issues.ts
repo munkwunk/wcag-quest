@@ -49,7 +49,7 @@ export const accessibilityIssues: AccessibilityIssue[] = [
     ],
     correctFix: "Associate with existing label using for/id",
     description: "Screen readers cannot identify what this input field is for without a proper label association.",
-    beforeFix: '<label>Email Address</label><input type="email" id="email-input" placeholder="Enter your email">',
+    beforeFix: '<input type="email" id="email-input" placeholder="Enter your email">',
     afterFix: '<label for="email-input">Email Address</label><input type="email" id="email-input" placeholder="Enter your email">'
   },
   {
