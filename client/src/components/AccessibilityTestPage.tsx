@@ -141,12 +141,20 @@ export const AccessibilityTestPage: React.FC<AccessibilityTestPageProps> = ({
             </div>
             <div className="text-center relative">
               {/* Issue: Missing alt text */}
-              <img 
-                src="/src/assets/logo.jpg" 
-                alt={isFixed['missing-alt-text'] ? 'Growth for ALL logo: A Venn diagram showing the intersection of Leadership, Growth, Accessibility, and Learning' : ''}
-                className="rounded-lg shadow-lg w-full max-w-md mx-auto"
-                id="hero-image"
-              />
+              {isFixed['missing-alt-text'] ? (
+                <img 
+                  src="/src/assets/logo.jpg" 
+                  alt="Growth for ALL logo: A Venn diagram showing the intersection of Leadership, Growth, Accessibility, and Learning"
+                  className="rounded-lg shadow-lg w-full max-w-md mx-auto"
+                  id="hero-image"
+                />
+              ) : (
+                <img 
+                  src="/src/assets/logo.jpg" 
+                  className="rounded-lg shadow-lg w-full max-w-md mx-auto"
+                  id="hero-image"
+                />
+              )}
               {!isFixed['missing-alt-text'] && (
                 <div className="absolute top-2 right-2">
                   {renderIssueButton(
