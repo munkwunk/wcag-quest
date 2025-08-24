@@ -39,8 +39,11 @@ export const useGameState = () => {
     if (!gameState.currentModal) return;
 
     const issueId = gameState.currentModal.id;
-    const newCompletedIssues = [...gameState.completedIssues, issueId];
-    const correctAnswers = newCompletedIssues.length; // Simplified scoring
+    // Only add to completed issues if the user got it correct
+    const newCompletedIssues = isCorrect 
+      ? [...gameState.completedIssues, issueId]
+      : gameState.completedIssues;
+    const correctAnswers = newCompletedIssues.length;
     const newScore = Math.round((correctAnswers / accessibilityIssues.length) * 100);
     const isGameComplete = newCompletedIssues.length === accessibilityIssues.length;
 

@@ -21,7 +21,7 @@ export const GameModal: React.FC<GameModalProps> = ({
   onTrackWCAG,
   onTrackFix
 }) => {
-  const [currentStep, setCurrentStep] = useState<'identify' | 'fix' | 'result'>('identify');
+  const [currentStep, setCurrentStep] = useState<'identify' | 'fix' | 'result' | 'wcag-retry' | 'fix-retry'>('identify');
   const [selectedWCAG, setSelectedWCAG] = useState<string>('');
   const [selectedFix, setSelectedFix] = useState<string>('');
   const [wcagCorrect, setWcagCorrect] = useState<boolean>(false);
@@ -42,6 +42,16 @@ export const GameModal: React.FC<GameModalProps> = ({
     }
   }, [isOpen, issue]);
 
+  const handleRetryWCAG = () => {
+    setSelectedWCAG('');
+    setCurrentStep('identify');
+  };
+
+  const handleRetryFix = () => {
+    setSelectedFix('');
+    setCurrentStep('fix');
+  };
+
   useEffect(() => {
     // Focus the title when step changes
     setTimeout(() => {
@@ -53,14 +63,22 @@ export const GameModal: React.FC<GameModalProps> = ({
     const isCorrect = selectedWCAG === issue.wcag;
     setWcagCorrect(isCorrect);
     onTrackWCAG(selectedWCAG, isCorrect);
-    setCurrentStep('fix');
+    if (isCorrect) {
+      setCurrentStep('fix');
+    } else {
+      setCurrentStep('wcag-retry');
+    }
   };
 
   const handleFixSubmit = () => {
     const isCorrect = selectedFix === issue.correctFix;
     setFixCorrect(isCorrect);
     onTrackFix(selectedFix, isCorrect);
-    setCurrentStep('result');
+    if (isCorrect) {
+      setCurrentStep('result');
+    } else {
+      setCurrentStep('fix-retry');
+    }
   };
 
   const handleComplete = () => {
@@ -143,14 +161,12 @@ export const GameModal: React.FC<GameModalProps> = ({
 
         {currentStep === 'fix' && (
           <div className="space-y-6">
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-accent">
-              {wcagCorrect ? (
+            {wcagCorrect && (
+              <div className="flex items-center gap-2 p-3 rounded-lg bg-accent">
                 <CheckCircle className="h-5 w-5 text-success" />
-              ) : (
-                <XCircle className="h-5 w-5 text-error" />
-              )}
-              <span>WCAG Identification: {wcagCorrect ? 'Correct!' : `Incorrect. The right answer was: ${issue.wcag}`}</span>
-            </div>
+                <span>WCAG Identification: Correct!</span>
+              </div>
+            )}
 
             <div>
               <h3 className="font-semibold mb-3">How should this issue be fixed?</h3>
@@ -190,24 +206,61 @@ export const GameModal: React.FC<GameModalProps> = ({
           </div>
         )}
 
+        {currentStep === 'wcag-retry' && (
+          <div className="space-y-6">
+            <div className="flex items-center gap-2 p-3 rounded-lg bg-error/10">
+              <XCircle className="h-5 w-5 text-error" />
+              <span className="text-error font-medium">That's not the right answer.</span>
+            </div>
+            
+            <p className="text-muted-foreground">
+              Take another look at the issue description and try again. Which WCAG Success Criterion does this violate?
+            </p>
+
+            <Button 
+              onClick={handleRetryWCAG}
+              className="w-full"
+            >
+              Try Again
+            </Button>
+          </div>
+        )}
+
+        {currentStep === 'fix-retry' && (
+          <div className="space-y-6">
+            <div className="flex items-center gap-2 p-3 rounded-lg bg-accent">
+              <CheckCircle className="h-5 w-5 text-success" />
+              <span>WCAG Identification: Correct!</span>
+            </div>
+
+            <div className="flex items-center gap-2 p-3 rounded-lg bg-error/10">
+              <XCircle className="h-5 w-5 text-error" />
+              <span className="text-error font-medium">That's not the right answer.</span>
+            </div>
+            
+            <p className="text-muted-foreground">
+              Consider the WCAG criterion you identified and think about what kind of fix would address this specific accessibility issue.
+            </p>
+
+            <Button 
+              onClick={handleRetryFix}
+              className="w-full"
+            >
+              Try Again
+            </Button>
+          </div>
+        )}
+
         {currentStep === 'result' && (
           <div className="space-y-6">
             <div className="flex items-center gap-2 p-3 rounded-lg bg-accent">
-              {wcagCorrect ? (
-                <CheckCircle className="h-5 w-5 text-success" />
-              ) : (
-                <XCircle className="h-5 w-5 text-error" />
-              )}
-              <span>WCAG Identification: {wcagCorrect ? 'Correct!' : `Incorrect. The right answer was: ${issue.wcag}`}</span>
+              <CheckCircle className="h-5 w-5 text-success" />
+              <span>WCAG Identification: Correct!</span>
             </div>
 
             <div className="flex items-center gap-2 p-3 rounded-lg bg-accent">
-              {fixCorrect ? (
-                <CheckCircle className="h-5 w-5 text-success" />
-              ) : (
-                <XCircle className="h-5 w-5 text-error" />
-              )}
-              <span>Fix Selection: {fixCorrect ? 'Correct!' : `Incorrect. The right answer was: ${issue.correctFix}`}</span>
+              <CheckCircle className="h-5 w-5 text-success" />
+              <span>Fix Selection: Correct!</span>
             </div>
 
             <div className="bg-muted p-4 rounded-lg">
@@ -226,10 +279,10 @@ export const GameModal: React.FC<GameModalProps> = ({
 
             <Button 
               onClick={handleComplete}
-              variant={wcagCorrect && fixCorrect ? 'success' : 'default'}
+              variant="success"
               className="w-full"
             >
-              {wcagCorrect && fixCorrect ? 'Great job! Continue' : 'Continue Learning'}
+              Great job! Continue
             </Button>
           </div>
         )}
