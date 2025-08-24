@@ -225,7 +225,6 @@ export const AccessibilityTestPage: React.FC<AccessibilityTestPageProps> = ({
                       <Input 
                         type="email" 
                         id="email-input" 
-                        placeholder="Enter your email"
                         className="flex-1"
                       />
                       {renderIssueButton(
