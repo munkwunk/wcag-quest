@@ -13,6 +13,13 @@ const Index = () => {
       <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-accent/5">
         <div className="container mx-auto px-4 py-16">
           <div className="max-w-4xl mx-auto text-center">
+            <div className="mb-8">
+              <img 
+                src="/src/assets/logo.jpg" 
+                alt="Growth for ALL logo: A Venn diagram showing the intersection of Leadership, Growth, Accessibility, and Learning" 
+                className="w-48 h-48 mx-auto mb-6 rounded-lg shadow-lg"
+              />
+            </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
               Master <span className="text-primary">WCAG</span> Testing with
               <br />
@@ -208,7 +215,7 @@ const Index = () => {
       <footer className="bg-card border-t py-8">
         <div className="container mx-auto px-4 text-center">
           <p className="text-muted-foreground">
-            &copy; 2024 WCAG Learning Game. Built with accessibility in mind.
+            WCAG Quest is Copyright &copy; 2025 Growth for ALL. All rights reserved.
           </p>
         </div>
       </footer>

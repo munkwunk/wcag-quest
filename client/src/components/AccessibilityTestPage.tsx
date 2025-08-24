@@ -142,10 +142,11 @@ export const AccessibilityTestPage: React.FC<AccessibilityTestPageProps> = ({
             <div className="text-center relative">
               {/* Issue: Missing alt text */}
               <img 
-                src="/api/placeholder/400/300" 
-                alt={isFixed['missing-alt-text'] ? 'Students collaborating on accessibility testing in a modern computer lab' : ''}
+                src="/src/assets/logo.jpg" 
+                alt={isFixed['missing-alt-text'] ? 'Growth for ALL logo: A Venn diagram showing the intersection of Leadership, Growth, Accessibility, and Learning' : ''}
                 className="rounded-lg shadow-lg w-full max-w-md mx-auto"
                 id="hero-image"
+                role={isFixed['missing-alt-text'] ? 'img' : 'presentation'}
               />
               {!isFixed['missing-alt-text'] && (
                 <div className="absolute top-2 right-2">
