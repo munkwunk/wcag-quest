@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
 import { Play, Target, Users, BookOpen, Headphones, Zap } from 'lucide-react';
+import { CourseExportButton } from "@/components/CourseExportButton";
 
 const Index = () => {
   return (
@@ -29,9 +30,9 @@ const Index = () => {
               Learn accessibility testing through hands-on experience. Navigate with screen readers, 
               identify WCAG failures, and master remediation strategies in a gamified environment.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" variant="hero" className="text-lg px-8 py-6">
+              <Button asChild size="lg" className="text-lg px-8 py-6">
                 <Link to="/game">
                   <Play className="h-5 w-5 mr-2" />
                   Start Learning
@@ -43,6 +44,10 @@ const Index = () => {
                   Learn More
                 </Link>
               </Button>
+            </div>
+
+            <div className="mt-8 flex justify-center">
+              <CourseExportButton />
             </div>
           </div>
         </div>
@@ -196,14 +201,14 @@ const Index = () => {
               Join thousands of developers, testers, and accessibility advocates who are 
               building more inclusive web experiences.
             </p>
-            
+
             <Button asChild size="lg" variant="hero" className="text-lg px-12 py-6">
               <Link to="/game">
                 <Play className="h-5 w-5 mr-2" />
                 Start Your Journey
               </Link>
             </Button>
-            
+
             <p className="text-sm text-muted-foreground mt-4">
               No registration required • Free to use • WCAG 2.2 AA compliant
             </p>
