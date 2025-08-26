@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
 import { Play, Target, Users, BookOpen, Headphones, Zap } from 'lucide-react';
-import { CourseExportButton } from "@/components/CourseExportButton";
 
 const Index = () => {
   return (
@@ -46,9 +45,6 @@ const Index = () => {
               </Button>
             </div>
 
-            <div className="mt-8 flex justify-center">
-              <CourseExportButton />
-            </div>
           </div>
         </div>
       </section>
