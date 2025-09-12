@@ -311,7 +311,7 @@ body {
   }
 
   private generateReactBundle(): string {
-    return \`
+    return `
 // Embedded React App Bundle for WCAG Quest
 (function() {
   'use strict';
@@ -680,7 +680,7 @@ body {
   }
 
 })();
-\`;
+`;
   }
 
   private generateXAPIWrapper(): string {
